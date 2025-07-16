@@ -277,16 +277,16 @@ const Main = () => {
           </Box>
         </Flex>
         {/* Banner */}
-        {/*<Box mb={8} bgGradient="linear(to-r, teal.600, gold.500)" color="white" p={4} borderRadius="lg" textAlign="center">*/
+        {/*  {/*<Box mb={8} bgGradient="linear(to-r, teal.600, gold.500)" color="white" p={4} borderRadius="lg" textAlign="center">
           <HStack spacing={2} justify="center">
+            { <Icon as={StarIcon} /> }
+            <Text fontWeight="bold" color={"black"}>5 LIFE CHANGING LESSONS FROM BHAGAVATGITA </Text>
             {/* <Icon as={StarIcon} /> */}
-            <Text fontWeight="semibold" color={"black"}>5 LIFE CHANGING LESSONS FROM BHAGAVATGITA </Text>
-            <Icon as={StarIcon} />
-          </HStack>
-         /* <Text mt={2} fontSize="sm" color={"black"}>
+        {/*  </HStack>
+          <Text mt={2} fontSize="sm" color={"black"}>
             Register before August 10th and get exclusive Krishna Pulse merchandise! Limited seats available.
-          </Text> */
-        /*</Box>*/ }
+          </Text>
+        </Box> 
         {/* Features */}
         <HStack spacing={6} mb={8} justify="center">
           <VStack>
