@@ -57,6 +57,7 @@ const Main = () => {
   const navigate = useNavigate();
   const [collegeOptions, setCollegeOptions] = useState([]);
   const [formData, setFormData] = useState(initialState);
+  const [otherCollege, setOtherCollege] = useState(""); 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -82,6 +83,10 @@ const Main = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+
+    if (field === "college" && value !== "Other College") {
+      setOtherCollege("");
     }
   };
 
@@ -116,6 +121,9 @@ const Main = () => {
     if (collegeOrWorking === "Working" && !companyName.trim())
       newErrors.companyName = "Company name is required";
     if (collegeOrWorking === "College" && !college.trim()) newErrors.college = "College name is required";
+    if (collegeOrWorking === "College" && college === "Other College" && !otherCollege.trim()) {
+      newErrors.college = "Please enter your college name";
+    }
     if (collegeOrWorking === "College" && !course.trim()) newErrors.course = "Course is required";
     if (collegeOrWorking === "College" && !year)
       newErrors.year = "Year is required";
@@ -126,12 +134,21 @@ const Main = () => {
   };
 
   const handlePayment = async () => {
+   
+    const finalFormData = {
+      ...formData,
+      college:
+        formData.collegeOrWorking === "College" && formData.college === "Other College"
+          ? otherCollege
+          : formData.college,
+    };
+
+
     if (!validateForm()) return;
     setIsSubmitting(true);
     try {
       const orderRes = await fetch(
         "https://vrc-server-110406681774.asia-south1.run.app/api/create-order",
-        // "http://localhost:3300/api/create-order",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -152,7 +169,6 @@ const Main = () => {
           try {
             const verifyRes = await fetch(
               "https://vrc-server-110406681774.asia-south1.run.app/api/verify-payment",
-              // "http://localhost:3300/api/verify-payment",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -161,7 +177,7 @@ const Main = () => {
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_signature: response.razorpay_signature,
                   formData: {
-                    ...formData,
+                    ...finalFormData,
                     paymentMethod: "Online",
                     receipt: `receipt_${Date.now()}`,
                   },
@@ -195,9 +211,9 @@ const Main = () => {
           }
         },
         prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: `91${formData.whatsappNumber}`,
+          name: finalFormData.name,
+          email: finalFormData.email,
+          contact: `91${finalFormData.whatsappNumber}`,
         },
         theme: { color: "#0a9396" },
       };
@@ -249,7 +265,7 @@ const Main = () => {
           textAlign="left"
           flexWrap="wrap"
         >
-          {/* Logo */}
+  
           <Box
             boxSize={{ base: '120px', md: '150px' }}
             borderRadius="full"
@@ -266,7 +282,7 @@ const Main = () => {
               height="100%"
             />
           </Box>
-          {/* Title and Tagline */}
+
           <Box>
             <Heading fontSize={{ base: '2xl', md: '3xl' }} color="black" fontWeight="bold">
               KRISHNA PULSE  <br /> YOUTH FESTIVAL
@@ -308,7 +324,7 @@ const Main = () => {
             <Text fontSize="sm" fontWeight="medium">2 Hours Event</Text>
           </VStack>
         </HStack>
-        {/* Form */}
+  
         <Card boxShadow="xl" borderRadius="2xl">
           <CardHeader textAlign="center">
             <Heading size="lg">Registration Form</Heading>
@@ -411,12 +427,25 @@ const Main = () => {
                     <Select
                       options={collegeOptions}
                       value={collegeOptions.find((opt) => opt.value === formData.college)}
-                      onChange={(option) => handleInputChange("college", option?.value || "")}
+                      onChange={(option) => {
+                        handleInputChange("college", option?.value || "");
+                      }}
                       placeholder="Select your college"
                       isClearable
                       styles={customSelectStyles}
                     />
                   </Box>
+              
+                  {formData.college === "Other College" && (
+                    <Input
+                      mt={2}
+                      placeholder="Enter your college name"
+                      value={otherCollege}
+                      onChange={(e) => setOtherCollege(e.target.value)}
+                      borderWidth={2}
+                      _focus={{ borderColor: "teal.500" }}
+                    />
+                  )}
                   <FormErrorMessage>{errors.college}</FormErrorMessage>
                 </FormControl>
               )}
@@ -451,7 +480,7 @@ const Main = () => {
                   <FormErrorMessage>{errors.year}</FormErrorMessage>
                 </FormControl>
               )}
-              {/* Slot Input */}
+             
               <FormControl isInvalid={!!errors.slot}>
                 <FormLabel>Slot <Text as="span" color="red.500">*</Text></FormLabel>
                 <Select
