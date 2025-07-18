@@ -148,13 +148,14 @@ const CandidateExport = () => {
           <Tr>
             <Th>Name</Th>
             <Th>Gender</Th>
-            <Th>College</Th>
+            <Th>Course</Th>
             <Th>Phone</Th>
             <Th>Payment</Th>
             <Th>College/Working</Th>
             <Th>Slot</Th>
-            
+            <Th>Company</Th>
             <Th>Registration Date</Th>
+            
           </Tr>
         </Thead>
         <Tbody>
@@ -162,11 +163,12 @@ const CandidateExport = () => {
             <Tr key={idx}>
               <Td>{candidate.name}</Td>
               <Td>{candidate.gender}</Td>
-              <Td>{candidate.college}</Td>
+              <Td>{candidate.course}</Td>
               <Td>{candidate.whatsappNumber}</Td>
               <Td>{candidate.paymentStatus}</Td>
               <Td>{candidate.collegeOrWorking}</Td>
               <Td>{candidate.slot}</Td>
+              <Td>{candidate.companyName}</Td>
               <Td>
                 {candidate.registrationDate
                   ? new Date(candidate.registrationDate).toLocaleDateString()
