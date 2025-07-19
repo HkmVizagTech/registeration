@@ -285,7 +285,7 @@ const Main = () => {
 
           <Box>
             <Heading fontSize={{ base: '2xl', md: '3xl' }} color="black" fontWeight="bold">
-              KRISHNA PULSE  <br /> YOUTH FESTIVAL
+              AU Pre Janmasthami Festival 2025
             </Heading>
             <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.700" fontWeight="semibold" mt={2}>
               A Fest of Fun, Faith & Freedom
