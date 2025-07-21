@@ -147,14 +147,12 @@ const Main = () => {
     if (!validateForm()) return;
     setIsSubmitting(true);
     try {
-      const orderRes = await fetch(
-        "https://vrc-server-110406681774.asia-south1.run.app/api/create-order",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: 4900 }),
-        }
-      );
+     const orderRes = await fetch("https://vrc-server-110406681774.asia-south1.run.app/api/create-order", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ amount:4900, formData: finalFormData }), // 49.00 in paise
+});
+
       const orderData = await orderRes.json();
       if (!orderData.id) throw new Error("Order creation failed");
 
