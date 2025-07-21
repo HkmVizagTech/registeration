@@ -41,6 +41,58 @@ const CandidateExport = () => {
         setLoading(false);
       });
   }, []);
+  const confirmAndUpdate = (id, status) => {
+  if (window.confirm(`Are you sure you want to update the payment status to "${status}"?`)) {
+    updatePaymentStatus(id, status);
+  }
+};
+// const confirmAndDelete = async (id) => {
+//   if (window.confirm("Are you sure you want to delete this candidate?")) {
+//     try {
+//       const res = await fetch(
+//         `http://localhost:3300/api/delete-candidate/${id}`,
+//         {
+//           method: "DELETE",
+//         }
+//       );
+//       const dataRes = await res.json();
+
+//       if (res.ok) {
+//         alert("Candidate deleted successfully!");
+//         // Remove from local state
+//         setData((prev) => prev.filter((c) => c._id !== id));
+//       } else {
+//         alert("Delete failed: " + dataRes.message);
+//       }
+//     } catch (err) {
+//       console.error("Delete error:", err);
+//       alert("Delete failed due to server/network issue.");
+//     }
+//   }
+// };
+
+const updatePaymentStatus = async (id, status) => {
+  try {
+    const res = await fetch(`https://vrc-server-110406681774.asia-south1.run.app/api/update-payment/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ paymentStatus: status }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("Payment status updated successfully!");
+    } else {
+      alert("Failed to update: " + data.message);
+    }
+  } catch (err) {
+    console.error("Update error:", err);
+    alert("Update failed due to network/server error.");
+  }
+};
+
   console.log(data)
   const filterByDate = (candidate) => {
     if (!startDate && !endDate) return true;
@@ -153,7 +205,7 @@ const CandidateExport = () => {
             <Th>Payment</Th>
             <Th>College/Working</Th>
             <Th>Slot</Th>
-            <Th>Company</Th>
+            <Th>Company/College</Th>
             <Th>Registration Date</Th>
             
           </Tr>
@@ -165,15 +217,54 @@ const CandidateExport = () => {
               <Td>{candidate.gender}</Td>
               <Td>{candidate.course}</Td>
               <Td>{candidate.whatsappNumber}</Td>
-              <Td>{candidate.paymentStatus}</Td>
+             <Td>
+  {/* <Flex align="center" gap={2}>
+    <Select
+      size="sm"
+      value={candidate.paymentStatus}
+      onChange={(e) =>
+        setData((prevData) =>
+          prevData.map((c, i) =>
+            i === idx ? { ...c, paymentStatus: e.target.value } : c
+          )
+        )
+      }
+      width="100px"
+    >
+      <option value="Paid">Paid</option>
+      <option value="Pending">Pending</option>
+      <option value="Failed">Failed</option>
+    </Select>
+
+    <Button
+      size="sm"
+      colorScheme="green"
+      onClick={() => confirmAndUpdate(candidate._id, candidate.paymentStatus)}
+    >
+      Update
+    </Button>
+  </Flex> */}
+  {candidate.paymentStatus}
+</Td>
+
               <Td>{candidate.collegeOrWorking}</Td>
               <Td>{candidate.slot}</Td>
-              <Td>{candidate.companyName}</Td>
+              <Td>{candidate.college ===''? candidate.companyName:candidate.college}</Td>
               <Td>
                 {candidate.registrationDate
                   ? new Date(candidate.registrationDate).toLocaleDateString()
                   : "N/A"}
               </Td>
+              {/* <Td>
+  <Button
+    size="sm"
+    colorScheme="red"
+    onClick={() => confirmAndDelete(candidate._id)}
+  >
+    Delete
+  </Button>
+</Td> */}
+
             </Tr>
           ))}
         </Tbody>
