@@ -46,30 +46,30 @@ const CandidateExport = () => {
     updatePaymentStatus(id, status);
   }
 };
-const confirmAndDelete = async (id) => {
-  if (window.confirm("Are you sure you want to delete this candidate?")) {
-    try {
-      const res = await fetch(
-        `https://vrc-server-110406681774.asia-south1.run.app/api/delete-candidate/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      const dataRes = await res.json();
+// const confirmAndDelete = async (id) => {
+//   if (window.confirm("Are you sure you want to delete this candidate?")) {
+//     try {
+//       const res = await fetch(
+//         `https://vrc-server-110406681774.asia-south1.run.app/api/delete-candidate/${id}`,
+//         {
+//           method: "DELETE",
+//         }
+//       );
+//       const dataRes = await res.json();
 
-      if (res.ok) {
-        alert("Candidate deleted successfully!");
-        // Remove from local state
-        setData((prev) => prev.filter((c) => c._id !== id));
-      } else {
-        alert("Delete failed: " + dataRes.message);
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert("Delete failed due to server/network issue.");
-    }
-  }
-};
+//       if (res.ok) {
+//         alert("Candidate deleted successfully!");
+//         // Remove from local state
+//         setData((prev) => prev.filter((c) => c._id !== id));
+//       } else {
+//         alert("Delete failed: " + dataRes.message);
+//       }
+//     } catch (err) {
+//       console.error("Delete error:", err);
+//       alert("Delete failed due to server/network issue.");
+//     }
+//   }
+// };
 
 const updatePaymentStatus = async (id, status) => {
   try {
@@ -194,6 +194,9 @@ const updatePaymentStatus = async (id, status) => {
       <Button colorScheme="teal" mb={4} onClick={exportToExcel}>
         Export to Excel
       </Button>
+    <Box mb={2} fontWeight="bold">
+  Total Records: {filteredData.length}
+</Box>
 
       <Table variant="striped" size="sm">
         <Thead>
@@ -207,12 +210,14 @@ const updatePaymentStatus = async (id, status) => {
             <Th>Slot</Th>
             <Th>Company/College</Th>
             <Th>Registration Date</Th>
-            
+            <Th>S. No.</Th>
+
           </Tr>
         </Thead>
         <Tbody>
           {filteredData.map((candidate, idx) => (
             <Tr key={idx}>
+              <Td>{idx + 1}</Td>
               <Td>{candidate.name}</Td>
               <Td>{candidate.gender}</Td>
               <Td>{candidate.course}</Td>
@@ -255,7 +260,7 @@ const updatePaymentStatus = async (id, status) => {
                   ? new Date(candidate.registrationDate).toLocaleDateString()
                   : "N/A"}
               </Td>
-              <Td>
+{/*               <Td>
   <Button
     size="sm"
     colorScheme="red"
@@ -263,7 +268,7 @@ const updatePaymentStatus = async (id, status) => {
   >
     Delete
   </Button>
-</Td>
+</Td> */}
 
             </Tr>
           ))}
