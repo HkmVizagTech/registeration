@@ -201,6 +201,7 @@ const updatePaymentStatus = async (id, status) => {
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
+             <Th>S. No.</Th>
             <Th>Name</Th>
             <Th>Gender</Th>
             <Th>Course</Th>
@@ -210,7 +211,7 @@ const updatePaymentStatus = async (id, status) => {
             <Th>Slot</Th>
             <Th>Company/College</Th>
             <Th>Registration Date</Th>
-            <Th>S. No.</Th>
+           
 
           </Tr>
         </Thead>
