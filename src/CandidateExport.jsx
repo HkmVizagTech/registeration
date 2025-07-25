@@ -28,6 +28,7 @@ const CandidateExport = () => {
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+const [filteredPaymentStatus, setFilteredPaymentStatus] = useState("");
 
   useEffect(() => {
     fetch("https://vrc-server-110406681774.asia-south1.run.app/api/data")
@@ -108,11 +109,17 @@ const updatePaymentStatus = async (id, status) => {
     return true;
   };
 
-  const filteredData = data.filter((c) => {
-    const collegeMatch = filteredCollege ? c.college === filteredCollege : true;
-    const dateMatch = filterByDate(c);
-    return collegeMatch && dateMatch;
-  });
+  // const filteredData = data.filter((c) => {
+  //   const collegeMatch = filteredCollege ? c.college === filteredCollege : true;
+  //   const dateMatch = filterByDate(c);
+  //   return collegeMatch && dateMatch;
+  // });
+const filteredData = data.filter((c) => {
+  const collegeMatch = filteredCollege ? c.college === filteredCollege : true;
+  const dateMatch = filterByDate(c);
+  const paymentMatch = filteredPaymentStatus ? c.paymentStatus === filteredPaymentStatus : true;
+  return collegeMatch && dateMatch && paymentMatch;
+});
 
   const uniqueColleges = [...new Set(data.map((c) => c.college))];
 
@@ -171,6 +178,18 @@ const updatePaymentStatus = async (id, status) => {
             ))}
           </Select>
         </FormControl>
+            <FormControl width="200px">
+  <FormLabel>Payment Status</FormLabel>
+  <Select
+    placeholder="Select Status"
+    value={filteredPaymentStatus}
+    onChange={(e) => setFilteredPaymentStatus(e.target.value)}
+  >
+    <option value="Paid">Paid</option>
+    <option value="Pending">Pending</option>
+    <option value="Failed">Failed</option>
+  </Select>
+</FormControl>
 
         <FormControl width="200px">
           <FormLabel>From Date</FormLabel>
