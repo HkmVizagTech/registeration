@@ -27,6 +27,8 @@ const CandidateExport = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(true);
+  const [paymentEdits, setPaymentEdits] = useState({});
+
   const navigate = useNavigate();
 const [filteredPaymentStatus, setFilteredPaymentStatus] = useState("");
 
@@ -243,33 +245,32 @@ const filteredData = data.filter((c) => {
               <Td>{candidate.course}</Td>
               <Td>{candidate.whatsappNumber}</Td>
              <Td>
-  <Flex align="center" gap={2}>
-    <Select
-      size="sm"
-      value={candidate.paymentStatus}
-      onChange={(e) =>
-        setData((prevData) =>
-          prevData.map((c, i) =>
-            i === idx ? { ...c, paymentStatus: e.target.value } : c
-          )
-        )
-      }
-      width="100px"
-    >
-      <option value="Paid">Paid</option>
-      <option value="Pending">Pending</option>
-      <option value="Failed">Failed</option>
-    </Select>
+ <Select
+  size="sm"
+  value={paymentEdits[candidate._id] ?? candidate.paymentStatus}
+  onChange={(e) =>
+    setPaymentEdits((prev) => ({
+      ...prev,
+      [candidate._id]: e.target.value,
+    }))
+  }
+  width="100px"
+>
+  <option value="Paid">Paid</option>
+  <option value="Pending">Pending</option>
+  <option value="Failed">Failed</option>
+</Select>
 
-    <Button
-      size="sm"
-      colorScheme="green"
-      onClick={() => confirmAndUpdate(candidate._id, candidate.paymentStatus)}
-    >
-      Update
-    </Button>
-  </Flex>
-{/*   {candidate.paymentStatus} */}
+<Button
+  size="sm"
+  colorScheme="green"
+  onClick={() =>
+    confirmAndUpdate(candidate._id, paymentEdits[candidate._id] ?? candidate.paymentStatus)
+  }
+>
+  Update
+</Button>
+
 </Td>
 
               <Td>{candidate.collegeOrWorking}</Td>
