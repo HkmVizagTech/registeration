@@ -245,31 +245,33 @@ const filteredData = data.filter((c) => {
               <Td>{candidate.course}</Td>
               <Td>{candidate.whatsappNumber}</Td>
              <Td>
- <Select
-  size="sm"
-  value={paymentEdits[candidate._id] ?? candidate.paymentStatus}
-  onChange={(e) =>
-    setPaymentEdits((prev) => ({
-      ...prev,
-      [candidate._id]: e.target.value,
-    }))
-  }
-  width="100px"
->
-  <option value="Paid">Paid</option>
-  <option value="Pending">Pending</option>
-  <option value="Failed">Failed</option>
-</Select>
+<Flex align="center" gap={2}>
+  <Select
+    size="sm"
+    value={paymentEdits[candidate._id] ?? candidate.paymentStatus}
+    onChange={(e) =>
+      setPaymentEdits((prev) => ({
+        ...prev,
+        [candidate._id]: e.target.value,
+      }))
+    }
+    width="100px"
+  >
+    <option value="Paid">Paid</option>
+    <option value="Pending">Pending</option>
+    <option value="Failed">Failed</option>
+  </Select>
 
-<Button
-  size="sm"
-  colorScheme="green"
-  onClick={() =>
-    confirmAndUpdate(candidate._id, paymentEdits[candidate._id] ?? candidate.paymentStatus)
-  }
->
-  Update
-</Button>
+  <Button
+    size="sm"
+    colorScheme="green"
+    onClick={() =>
+      confirmAndUpdate(candidate._id, paymentEdits[candidate._id] ?? candidate.paymentStatus)
+    }
+  >
+    Update
+  </Button>
+</Flex>
 
 </Td>
 
