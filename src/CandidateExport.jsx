@@ -283,8 +283,8 @@ const filteredData = data.filter((c) => {
                   ? new Date(candidate.registrationDate).toLocaleDateString()
                   : "N/A"}
               </Td>
-              <Td>
-{/*   <Button
+{/*               <Td>
+  <Button
     size="sm"
     colorScheme="red"
     onClick={() => confirmAndDelete(candidate._id)}
