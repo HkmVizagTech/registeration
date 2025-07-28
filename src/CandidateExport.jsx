@@ -49,30 +49,30 @@ const [filteredPaymentStatus, setFilteredPaymentStatus] = useState("");
     updatePaymentStatus(id, status);
   }
 };
-const confirmAndDelete = async (id) => {
-  if (window.confirm("Are you sure you want to delete this candidate?")) {
-    try {
-      const res = await fetch(
-        `https://vrc-server-110406681774.asia-south1.run.app/api/delete-candidate/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      const dataRes = await res.json();
+// const confirmAndDelete = async (id) => {
+//   if (window.confirm("Are you sure you want to delete this candidate?")) {
+//     try {
+//       const res = await fetch(
+//         `https://vrc-server-110406681774.asia-south1.run.app/api/delete-candidate/${id}`,
+//         {
+//           method: "DELETE",
+//         }
+//       );
+//       const dataRes = await res.json();
 
-      if (res.ok) {
-        alert("Candidate deleted successfully!");
-        // Remove from local state
-        setData((prev) => prev.filter((c) => c._id !== id));
-      } else {
-        alert("Delete failed: " + dataRes.message);
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert("Delete failed due to server/network issue.");
-    }
-  }
-};
+//       if (res.ok) {
+//         alert("Candidate deleted successfully!");
+//         // Remove from local state
+//         setData((prev) => prev.filter((c) => c._id !== id));
+//       } else {
+//         alert("Delete failed: " + dataRes.message);
+//       }
+//     } catch (err) {
+//       console.error("Delete error:", err);
+//       alert("Delete failed due to server/network issue.");
+//     }
+//   }
+// };
 
 const updatePaymentStatus = async (id, status) => {
   try {
@@ -284,14 +284,14 @@ const filteredData = data.filter((c) => {
                   : "N/A"}
               </Td>
               <Td>
-  <Button
+{/*   <Button
     size="sm"
     colorScheme="red"
     onClick={() => confirmAndDelete(candidate._id)}
   >
     Delete
   </Button>
-</Td>
+</Td> */}
 
             </Tr>
           ))}
